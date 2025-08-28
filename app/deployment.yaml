@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: paf-assignment-deployment
-          image: registry.digitalocean.com/topcode/paf-assignment:latest
+          image: registry.digitalocean.com/topcode/paf-assignment:v0.0.1
           imagePullPolicy: Always
           envFrom:
             - secretRef:

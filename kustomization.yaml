@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: paf-assignment
+
+resources:
+  - keycloak-db/deployment.yaml
+  - keycloak-db/service.yaml
+  - keycloak-db/pvc.yaml
+  - keycloak-db/secret.yaml
+  - keycloak/deployment.yaml
+  - keycloak/service.yaml
+  - keycloak/certificate.yaml
+  - keycloak/ingress.yaml
+  - keycloak/secret.yaml
+  - app/service.yaml
+  - app/deployment.yaml
+  - app/certificate.yaml
+  - app/ingress.yaml
+  - app/secret.yaml
+  - db/service.yaml
+  - db/deployment.yaml
+  - db/pvc.yaml
+  - db/secret.yaml
