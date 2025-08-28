@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paf-assignment-keycloak-db-deployment
+  namespace: paf-assignment
+spec:
+  serviceName: paf-assignment-keycloak-db-deployment
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paf-assignment-keycloak-db-deployment
+  template:
+    metadata:
+      labels:
+        app: paf-assignment-keycloak-db-deployment
+    spec:
+      containers:
+        - name: postgres
+          image: "postgres:14"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-db-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-db-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-db-secret
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /mnt/psql/pgdata/data
+          volumeMounts:
+            - mountPath: /mnt/psql/pgdata
+              name: psql
+      volumes:
+        - name: psql
+          persistentVolumeClaim:
+            claimName: paf-assignment-keycloak-db-pvc
+

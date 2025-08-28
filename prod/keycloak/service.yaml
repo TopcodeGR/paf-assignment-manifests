@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: paf-assignment-keycloak-service
+  namespace: paf-assignment
+spec:
+  ports:
+    - protocol: TCP
+      name: paf-assignment-keycloak-service
+      port: 8080
+  selector:
+    app: paf-assignment-keycloak-deployment
+

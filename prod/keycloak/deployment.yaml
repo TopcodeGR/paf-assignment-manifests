@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paf-assignment-keycloak-deployment
+  namespace: paf-assignment
+  labels:
+    app: paf-assignment-keycloak-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paf-assignment-keycloak-deployment
+  template:
+    metadata:
+      labels:
+        app: paf-assignment-keycloak-deployment
+    spec:
+      containers:
+        - name: paf-assignment-keycloak-deployment
+          image: quay.io/keycloak/keycloak:26.2.2
+          args: ["start-dev"]
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_BOOTSTRAP_ADMIN_USERNAME
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_BOOTSTRAP_ADMIN_PASSWORD
+            - name: KC_DB
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_DB
+            - name: KC_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_DB_URL
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_DB_USERNAME
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paf-assignment-keycloak-secret
+                  key: KC_DB_PASSWORD
+            - name: KC_HOSTNAME_STRICT_HTTPS
+              value: "true"
+            - name: KC_HOSTNAME
+              value: paf-assignment.keycloak.topalidis.online
+            - name: KC_HOSTNAME_PORT
+              value: "8080"
+
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+            - name: KC_PROXY_HEADERS
+              value: "xforwarded"
+          ports:
+            - name: keycloak
+              containerPort: 8080
+          readinessProbe:
+                httpGet:
+                  path: /health/ready
+                  port: 9000
+

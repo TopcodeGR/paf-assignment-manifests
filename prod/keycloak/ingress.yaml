@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: paf-assignment-keycloak-ingress
+  namespace: paf-assignment
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`paf-assignment.keycloak.topalidis.online`)
+      services:
+        - name: paf-assignment-keycloak-service
+          port: 8080
+  tls:
+    secretName: paf-assignment-keycloak-tls
+

@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: paf-assignment-ceritifcate
+  namespace: paf-assignment
+spec:
+  commonName: paf-assignment.app.topalidis.online
+  secretName: paf-assignment-tls
+  dnsNames:
+    - paf-assignment.app.topalidis.online
+  issuerRef:
+    kind: ClusterIssuer
+    name: acme
+

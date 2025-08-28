@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paf-assignment-deployment
+  namespace: paf-assignment
+  labels:
+    app: paf-assignment-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paf-assignment-deployment
+  template:
+    metadata:
+      labels:
+        app: paf-assignment-deployment
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: paf-assignment-deployment
+          image: registry.digitalocean.com/topcode/paf-assignment:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: paf-assignment-secret
+          ports:
+            - name: paf-assignment
+              containerPort: 8080
+
