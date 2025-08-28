@@ -51,7 +51,9 @@ spec:
                   name: paf-assignment-keycloak-secret
                   key: KC_DB_PASSWORD
             - name: KC_HOSTNAME_STRICT_HTTPS
-              value: "true"
+              value: "false"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
             - name: KC_HOSTNAME
               value: paf-assignment.keycloak.topalidis.online
             - name: KC_HOSTNAME_PORT
@@ -63,6 +65,8 @@ spec:
               value: "true"
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
+            - name: KC_LOG_LEVEL
+              value: "debug"
           ports:
             - name: keycloak
               containerPort: 8080
